@@ -5,7 +5,7 @@ var kinesis = new AWS.Kinesis();
 var shard_id = "jawsdays2015-handson-track2";
 
 var params = {
-	ShardId: shard_id;
+	ShardId: shard_id,
 	ShardIteratorType: 'LATEST'
 };
 
