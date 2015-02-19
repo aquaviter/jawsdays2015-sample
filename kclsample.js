@@ -1,6 +1,5 @@
 // AWS config skipped for brevity 
-var s3 = new require('aws-sdk').S3()
-var kcl = require('kinesis-client-library')
+ßvar kcl = require('kinesis-client-library')
  
 var newlineBuffer = new Buffer('\n')
  
