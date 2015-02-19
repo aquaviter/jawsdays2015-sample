@@ -17,9 +17,10 @@ kcl.AbstractConsumer.extend({
   processRecords: function (records, done) {
     // Put each record into our list of cached records (separated by newlines) and update the size 
     records.forEach(function (record) {
-      this.cachedRecords.push(record.Data)
-      this.cachedRecords.push(newlineBuffer)
-      this.cachedRecordSize += (record.Data.length + newlineBuffer.length)
+      console.log(record.Data)
+      //this.cachedRecords.push(record.Data)
+      //this.cachedRecords.push(newlineBuffer)
+      //this.cachedRecordSize += (record.Data.length + newlineBuffer.length)
     }.bind(this))
  
     // not very good for performance 
@@ -42,8 +43,7 @@ kcl.AbstractConsumer.extend({
       // Pass `true` to checkpoint the latest record we've received 
     // done(null, true)
     //}.bind(this))
-    
-    console.log(Buffer.concat(this.cachedRecords))
+
     
   }
 })
