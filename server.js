@@ -53,10 +53,10 @@ function getKinesisRecords(kinesis,shardId,shardIterator){
                     var records =+ shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data + '\n';
                 }
             }
+            return records;
             setTimeout(function() {
                 getKinesisRecords(kinesis, shardId, result.NextShardIterator);
             },0);
         }
     })
-    return records;
 }
