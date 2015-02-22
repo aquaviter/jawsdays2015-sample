@@ -10,30 +10,47 @@ var server = http.createServer();
 var io = require('socket.io').listen(server);
 
 server.on('request', function (req, res) {
-  kinesis.describeStream({StreamName:stream},function(err,result){
-    var shards = result.StreamDescription.Shards;
-    console.log(shards);
-    for(var i = 0; i < shards.length; i++){
-      var shardId = shards[i].ShardId;
-      var params = {
-        ShardId: shardId,
-        ShardIteratorType: strategy,
-        StreamName: stream
-      };
-      kinesis.getShardIterator(params,function(err,result){
-        if(err) console.log(err);
-        else {
-          data = getRecords(kinesis,shardId,result.ShardIterator);
-          socket.emit('data', function(data){
-            console.log(data);
-          });
-        };
-      });
-    };
+  fs.readFile('client.html', function(err, data){
+    if (err) {
+      res.writeHead(500);
+      return res.end('HTML loading Error');
+    }
+    res.writeHead(200, {
+      'Content-Type': 'text/html; charset=UTF-8'
+    });
+    res.end(data);
   });
 });
 
 server.listen(9000);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('emitdata', {data:}, function (data) {
+    console.log('data:' + data);
+  });
+});
+
+kinesis.describeStream({StreamName:stream},function(err,result){
+  var shards = result.StreamDescription.Shards;
+  console.log(shards);
+  for(var i = 0; i < shards.length; i++){
+    var shardId = shards[i].ShardId;
+    var params = {
+      ShardId: shardId,
+      ShardIteratorType: strategy,
+      StreamName: stream
+    };
+    kinesis.getShardIterator(params,function(err,result){
+      if(err) console.log(err);
+      else {
+        data = getRecords(kinesis,shardId,result.ShardIterator);
+        socket.emit('data', function(data){
+          console.log(data);
+        });
+      };
+    });
+  };
+});
 
 function getRecords(kinesis,shardId,shardIterator){
     kinesis.getRecords({ShardIterator: shardIterator, Limit: 10000},function(err,result){

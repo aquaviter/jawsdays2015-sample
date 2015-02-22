@@ -1,0 +1,18 @@
+<html>
+<head>
+<title>Hands-on Prototype</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	$(document).ready(function () {
+		var socket = io.connect();
+		socket.on('msg', function (data) {
+			document.getElementById("data").innerHTML += data + "<br>";
+		});
+	});
+</script>
+</head>
+<body>
+<h1>socket.io sample</h1>
+</body>
+</html>
