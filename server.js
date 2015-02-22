@@ -43,8 +43,8 @@ io.sockets.on('connection', function (socket) {
                                 for(var i = 0; i < records.Records.length; i++){
                                  r = records.Records[i];
                                     console.log(shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data);
-                                    var record =+ shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data;
-                                    io.sockets.emit('msg', data);
+                                    var record = shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data;
+                                    io.sockets.emit('msg', record);
                                 }
                             }
                         }
