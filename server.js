@@ -31,7 +31,10 @@ io.sockets.on('connection', function (socket) {
                 StreamName: stream
                 };
             kinesis.getShardIterator(params,function(err,result){
-                if(err) console.log(err);
+                if(err) {
+                    console.log(err);
+                    console.log("cannot retrieve data");
+                }
                 else {
                     data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
                     io.sockets.emit('msg', data);
