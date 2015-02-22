@@ -8,15 +8,19 @@ var strategy = 'LATEST';
 var kinesis = new aws.Kinesis({region:region});
 
 var server = http.createServer(function (req, res) {
-	res.writeHead(200, {"Content-Type":"text/html"});
-	var html = fs.readFileSync('./client.html', "utf-8");
+	res.writeHead(200, {"Content-Type": "text/html"});
+	var html = fs.readFileSync("./client.html", "utf-8");
 	res.end(html);
 }).listen(9000);
 
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
-	console.log('client connected');
+    var address = socket.handshake.address;
+	console.log('client connected: ' + address.address + ":" + address.port);
+    for(var i = 0; i < 10; i++) {
+        io.sockets.emit("msg", i);
+    }
 });
 
 function getKinesisRecords(kinesis,shardId,shardIterator){

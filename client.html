@@ -4,16 +4,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
-	socket = new io.Socket(null, {port: 9000});
-	socket.connect();
-	socket.on('connect', function() {
-		console.log('connect');
+	$(document).ready(function () {
+		var socket = io.connect();
+		socket.on('msg', function (data) {
+			document.getElementById("output").innerHTML += data + "<br>";
+		});
 	});
 </script>
 </head>
 <body>
 <h1>socket.io sample</h1>
 <hr>
-<div id="rawdata"></div>
+<div id="output"></div>
 </body>
 </html>
