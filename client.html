@@ -3,8 +3,8 @@
 <title>Hands-on Prototype</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="d3.min.js"></script>
-<script src="epoch.min.js"></script>
+<script src="./d3.min.js"></script>
+<script src="./epoch.min.js"></script>
 <script>
 	$(function() {
 		var socket = io.connect();
@@ -12,7 +12,7 @@
 		socket.on('msg', function(message) {
 			console.log(message);
 			tempstr = message.split(",");
-			if (data.length == 3){
+			if (tempstr.length == 3){
 				devicename = tempstr[0];
 				timestamp = tempstr[1];
 				value = tempstr[2];
