@@ -31,10 +31,7 @@ io.sockets.on('connection', function (socket) {
                 StreamName: stream
                 };
             kinesis.getShardIterator(params,function(err,result){
-                if(err) {
-                    console.log(err);
-                    console.log("cannot retrieve data");
-                }
+                if(err) console.log(err);
                 else {
                     data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
                     io.sockets.emit('msg', data);
@@ -45,9 +42,10 @@ io.sockets.on('connection', function (socket) {
 });
 
 function getKinesisRecords(kinesis,shardId,shardIterator){
-    kinesis.getRecords({ShardIterator: shardIterator, Limit: 10000},function(err,result){
+    kinesis.getRecords({ShardIterator: shardIterator, Limit: 100},function(err,result){
         if(err) console.log(err);
         else {
+            console.log(result.Records.length);
             if(result.Records.length){
                 for(var i = 0; i < result.Records.length; i++){
                     r = result.Records[i];
