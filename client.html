@@ -17,14 +17,23 @@
 				devicename = tempstr[0];
 				timestamp = tempstr[1];
 				value = tempstr[2];
-				var data = [
-					{ label: devicename, values: [ {time: timestamp, y: value} ] }
-				];
-				var realtimeChart = $('#realtimeChart').epoch({
-					type: 'time.line',
-					data: data,
-					axes: ['left', 'right', 'bottom']
-				});
+				if (data) {
+					// Append Graph data
+					data = [
+						{ label: devicename, values: [ {time: timestamp, y: value} ] }
+					];
+					realtimeChart.push(data);
+				} else {
+					// Initialize Graph
+					var data = [
+						{ label: devicename, values: [ {time: timestamp, y: value} ] }
+					];
+					var realtimeChart = $('#realtimeChart').epoch({
+						type: 'time.line',
+						data: data,
+						axes: ['left', 'right', 'bottom']
+					});
+				}
 			}
 			$('div').prepend(message + '<br>');
 		});
