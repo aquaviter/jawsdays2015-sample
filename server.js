@@ -50,7 +50,7 @@ function getKinesisRecords(kinesis,shardId,shardIterator){
                 for(var i = 0; i < result.Records.length; i++){
                     r = result.Records[i];
                     console.log(shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data);
-                    var records += shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data + '\n';
+                    var records =+ shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data + '\n';
                 }
             }
             setTimeout(function() {
