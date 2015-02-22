@@ -22,7 +22,7 @@ server.on('request', function (req, res) {
 		res.end(data);
 	});
 });
-server.listen(8080);
+server.listen(9000);
 
 io.sockets.on('connection', function (socket) {
 	kinesis.describeStream({StreamName:stream},function(err,result){
@@ -38,6 +38,7 @@ io.sockets.on('connection', function (socket) {
     		kinesis.getShardIterator(params,function(err,result){
       			if(err) console.log(err);
       			else {
+      				console.log(data);
         			data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
         			io.sockets.emit('msg', data);
         		}
