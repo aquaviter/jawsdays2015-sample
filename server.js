@@ -30,26 +30,23 @@ io.sockets.on('connection', function (socket) {
                 ShardIteratorType: strategy,
                 StreamName: stream
                 };
-            kinesis.getShardIterator(params,function(err,result){
+            kinesis.getShardIterator(params,function(err,iter){
                 if(err) console.log(err);
                 else {
                     //data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
                     //io.sockets.emit('msg', data);
-                    kinesis.getRecords({ShardIterator: shardIterator, Limit: 100},function(err,result){
+                    kinesis.getRecords({ShardIterator: iter.shardIterator, Limit: 100},function(err,records){
                         if(err) console.log(err);
                         else {
-                           console.log(result.Records.length);
-                            if(result.Records.length){
-                                for(var i = 0; i < result.Records.length; i++){
-                                 r = result.Records[i];
+                           console.log(records.Records.length);
+                            if(records.Records.length){
+                                for(var i = 0; i < records.Records.length; i++){
+                                 r = records.Records[i];
                                     console.log(shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data);
                                     var record =+ shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data;
                                     io.sockets.emit('msg', data);
                                 }
                             }
-                            setTimeout(function() {
-                                getKinesisRecords(kinesis, shardId, result.NextShardIterator);
-                            },0);
                         }
                     })
                 };
