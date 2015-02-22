@@ -4,6 +4,7 @@ var http = require('http');
 
 var region = 'ap-northeast-1';
 var stream = 'jawsdays2015-handson-track2'
+//var stream = process.argv[2];
 var strategy = 'LATEST';
 var kinesis = new aws.Kinesis({region:region});
 
@@ -53,6 +54,9 @@ io.sockets.on('connection', function (socket) {
                 };
             });
         };
+    });
+    socket.on('disconnect', function() {
+        console.log("client Disconnected");
     });
 });
 
