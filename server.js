@@ -23,7 +23,6 @@ io.sockets.on('connection', function (socket) {
     //}
     kinesis.describeStream({StreamName:stream},function(err,result){
         var shards = result.StreamDescription.Shards;
-        console.log(shards);
         for(var i = 0; i < shards.length; i++){
             var shardId = shards[i].ShardId;
             var params = {
@@ -31,13 +30,13 @@ io.sockets.on('connection', function (socket) {
                 ShardIteratorType: strategy,
                 StreamName: stream
                 };
-            kinesis.getShardIterator(params,function(err,iter){
+            kinesis.getShardIterator(params,function(err,result){
                 if(err) console.log(err);
                 else {
                     //data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
                     //io.sockets.emit('msg', data);
-                    console.log(iter.shardIterator);
-                    kinesis.getRecords({ShardIterator: iter.shardIterator, Limit: 100},function(err,records){
+                    console.log("iterator=" + result.shardIterator);
+                    kinesis.getRecords({ShardIterator: result.shardIterator, Limit: 100},function(err,records){
                         if(err) console.log(err);
                         else {
                            console.log(records.Records.length); //なぜここが0になるのか？
