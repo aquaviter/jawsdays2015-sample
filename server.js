@@ -35,7 +35,7 @@ io.sockets.on('connection', function (socket) {
                 if(err) console.log(err);
                 else {
                     data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
-                    io.socket.emit('msg', data);
+                    io.sockets.emit('msg', data);
                 };
             });
         };
