@@ -23,7 +23,6 @@ io.sockets.on('connection', function (socket) {
     //}
     kinesis.describeStream({StreamName:stream},function(err,result){
         var shards = result.StreamDescription.Shards;
-        console.log(shards);
         for(var i = 0; i < shards.length; i++){
             var shardId = shards[i].ShardId;
             var params = {
