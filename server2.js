@@ -40,7 +40,6 @@ function getRecords(kinesis,shardId,shardIterator){
     kinesis.getRecords({ShardIterator: shardIterator, Limit: 10000},function(err,result){
         if(err) console.log(err);
         else {
-            console.log("Records=" + result.Records.length);
             if(result.Records.length){
                 for(var i = 0; i < result.Records.length; i++){
                     r = result.Records[i];
