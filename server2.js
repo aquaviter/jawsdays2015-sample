@@ -44,9 +44,7 @@ function getRecords(kinesis,shardId,shardIterator){
             if(result.Records.length){
                 for(var i = 0; i < result.Records.length; i++){
                     r = result.Records[i];
-                    stream.on('dada', function(data) {
-                    	io.sockets.emit('msg', r.data);
-                    })
+                   	io.sockets.emit('msg', r.data);
                     console.log(shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data);
                 }
             }
