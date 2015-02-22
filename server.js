@@ -7,43 +7,15 @@ var stream = 'jawsdays2015-handson-track2'
 var strategy = 'LATEST';
 var kinesis = new aws.Kinesis({region:region});
 
-var server = http.createServer();
+var server = http.createServer(function (req, res) {
+	res.writehead(200, {"Content-Type":"text/html"});
+	var rs = fs.createReadStream('client.html');
+}).listen(9000);
+
 var io = require('socket.io').listen(server);
 
-server.on('request', function (req, res) {
-	fs.readFile('client.html', function (err, data) {
-		if (err) {
-			res.writeHead(500);
-			return res.end('Error loading html file.');
-		}
-		res.writeHead(200, {
-			'Content-Type': 'text/html; charset=UTF-8'
-		});
-		res.end(data);
-	});
-});
-server.listen(9000);
-
 io.sockets.on('connection', function (socket) {
-	kinesis.describeStream({StreamName:stream},function(err,result){
-  		var shards = result.StreamDescription.Shards;
-  		console.log(shards);
-  		for(var i = 0; i < shards.length; i++){
-    		var shardId = shards[i].ShardId;
-    		var params = {
-      		ShardId: shardId,
-      		ShardIteratorType: strategy,
-      		StreamName: stream
-    		};
-    		kinesis.getShardIterator(params,function(err,result){
-      			if(err) console.log(err);
-      			else {
-        			record = getKinesisRecords(kinesis,shardId,result.ShardIterator);
-        			io.sockets.emit('msg', record);
-        		}
-      		});
-    	}
-  	});
+	console.log('client connected');
 });
 
 function getKinesisRecords(kinesis,shardId,shardIterator){
