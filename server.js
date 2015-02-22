@@ -35,10 +35,11 @@ io.sockets.on('connection', function (socket) {
                 else {
                     //data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
                     //io.sockets.emit('msg', data);
+                    console.log(iter.shardIterator);
                     kinesis.getRecords({ShardIterator: iter.shardIterator, Limit: 100},function(err,records){
                         if(err) console.log(err);
                         else {
-                           console.log(records.Records.length);
+                           console.log(records.Records.length); //なぜここが0になるのか？
                             if(records.Records.length){
                                 for(var i = 0; i < records.Records.length; i++){
                                  r = records.Records[i];
