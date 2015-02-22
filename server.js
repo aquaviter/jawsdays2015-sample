@@ -36,13 +36,13 @@ io.sockets.on('connection', function (socket) {
                     //data = getKinesisRecords(kinesis,shardId,result.ShardIterator);
                     //io.sockets.emit('msg', data);
                     console.log("iterator=" + result.ShardIterator);
-                    kinesis.getRecords({ShardIterator: result.ShardIterator, Limit: 100},function(err,records){
+                    kinesis.getRecords({ShardIterator: result.ShardIterator, Limit: 100},function(err,result){
                         if(err) console.log(err);
                         else {
-                           console.log(records.Records.length); //なぜここが0になるのか？
-                            if(records.Records.length){
-                                for(var i = 0; i < records.Records.length; i++){
-                                 r = records.Records[i];
+                           console.log(result.Records.length); //なぜここが0になるのか？
+                            if(result.Records.length){
+                                for(var i = 0; i < result.Records.length; i++){
+                                 r = result.Records[i];
                                     console.log(shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data);
                                     var record = shardId + ', ' + r.PartitionKey + ', ' + r.SequenceNumber + ', ' + r.Data;
                                     io.sockets.emit('msg', record);
