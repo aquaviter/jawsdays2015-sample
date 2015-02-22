@@ -42,6 +42,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 function getKinesisRecords(kinesis,shardId,shardIterator){
+    console.log(shardId);
     kinesis.getRecords({ShardIterator: shardIterator, Limit: 100},function(err,result){
         if(err) console.log(err);
         else {
