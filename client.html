@@ -4,12 +4,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
-	$(document).ready(function () {
+	$(function() {
 		var socket = io.connect();
-		socket.on('msg', function (data) {
-			document.getElementById("output").innerHTML += data + "<br>";
+		socket.on('msg', function(data) {
+			console.log(data);
+			$('div').prepend(data + '<br>');
 		});
-		console.log(data);
 	});
 </script>
 </head>
