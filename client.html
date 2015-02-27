@@ -12,12 +12,6 @@
 
 		socket.on('msg', function(message) {
 			console.log(message);
-			tempstr = message.split(",");
-			if (tempstr.length == 3){
-				devicename = tempstr[0];
-				timestamp = tempstr[1];
-				value = tempstr[2];
-			}
 			$('div').prepend(message + '<br>');
 		});
 	});
@@ -27,7 +21,5 @@
 <body>
 <h1>socket.io sample</h1>
 <hr>
-<div id="realtimeChart" style="width: 200px; height: 200px"></div>
-
 </body>
 </html>
